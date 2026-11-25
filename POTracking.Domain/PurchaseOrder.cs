@@ -1,4 +1,5 @@
-﻿using static POTracking.Domain.Enums;
+﻿
+using static POTracking.Domain.Enums;
 
 namespace POTracking.Domain
 {
@@ -17,23 +18,19 @@ namespace POTracking.Domain
         public double Subtotal => Lines.Sum(line => line.LineTotal);
         public double Total => Subtotal + DeliveryFee + TaxAmount;
 
+        private static readonly IReadOnlyDictionary<PurchaseOrderStatus, PurchaseOrderStatus[]> AllowedStatusTransitions = new Dictionary<PurchaseOrderStatus, PurchaseOrderStatus[]>
+        {
+            [PurchaseOrderStatus.Pending] = [PurchaseOrderStatus.Confirmed, PurchaseOrderStatus.Cancelled],
+            [PurchaseOrderStatus.Confirmed] = [PurchaseOrderStatus.Shipped, PurchaseOrderStatus.Cancelled],
+            [PurchaseOrderStatus.Shipped] = [PurchaseOrderStatus.Fulfilled],
+            [PurchaseOrderStatus.Fulfilled] = [],
+            [PurchaseOrderStatus.Cancelled] = []
+        };
+
         public bool CanStatusMoveTo(PurchaseOrderStatus targetStatus)
         {
-            switch (Status)
-            {
-                case PurchaseOrderStatus.Pending:
-                    return targetStatus == PurchaseOrderStatus.Confirmed || targetStatus == PurchaseOrderStatus.Cancelled;
-                case PurchaseOrderStatus.Confirmed:
-                    return targetStatus == PurchaseOrderStatus.Shipped || targetStatus == PurchaseOrderStatus.Cancelled;
-                case PurchaseOrderStatus.Shipped:
-                    return targetStatus == PurchaseOrderStatus.Fulfilled;
-                case PurchaseOrderStatus.Fulfilled:
-                    return false; // Once fulfilled it can't move to another status.
-                case PurchaseOrderStatus.Cancelled:
-                    return false; // Same as fulgilled, cant move once cancelled.
-                default:
-                    return false;
-            }
+            var allowed = AllowedStatusTransitions.TryGetValue(Status, out var transitions) ? transitions : [];
+            return allowed.Contains(targetStatus);
         }
     }
 }

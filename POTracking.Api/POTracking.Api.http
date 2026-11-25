@@ -1,0 +1,31 @@
+@POTracking.Api_HostAddress = http://localhost:5025
+
+POST {{POTracking.Api_HostAddress}}/purchaseorders/
+Accept: application/json
+Content-Type: application/json
+
+{
+  "customerId": -1,
+  "externalRef": "EXT123",
+  "lines": [
+    {
+      "sku": "AL6303",
+      "productName": "LAPTOP SECURITY LOCK",
+      "quantity": 5,
+      "unitPrice": 193.50
+    },
+    {
+      "sku": "IW7102",
+      "productName": "INTERACTIVE TOUCH PANEL MOBILE STAND GREY",
+      "quantity": 2,
+      "unitPrice": 11039
+    }
+  ]
+}
+
+###
+
+GET {{POTracking.Api_HostAddress}}/customers/
+Accept: application/json
+
+###

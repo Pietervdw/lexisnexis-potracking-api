@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/Business/">
+    <Project Path="POTracking.Services/POTracking.Services.csproj" />
+  </Folder>
+  <Folder Name="/Data/">
+    <Project Path="POTracking.Data.InMemory/POTracking.Data.InMemory.csproj" />
+    <Project Path="POTracking.Domain/POTracking.Domain.csproj" Id="a1f82f67-a76f-4395-9e5b-bbdc442854cf" />
+  </Folder>
+  <Folder Name="/Shared/">
+    <Project Path="PoTracking.Abstractions/PoTracking.Abstractions.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="POTracking.Tests/POTracking.Tests.csproj" Id="28c3187b-ea36-48ee-8adb-c52ea8d9d8dd" />
+  </Folder>
+  <Project Path="POTracking.Api/POTracking.Api.csproj" />
+</Solution>

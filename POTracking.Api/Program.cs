@@ -34,9 +34,9 @@ namespace POTracking.Api
         private static void ConfigureDi(WebApplicationBuilder builder)
         {
             builder.Services.AddSingleton<IPurchaseOrderService, PurchaseOrderService>();
-            builder.Services.AddSingleton<IPurchaseOrderRepository, PurchaseOrderRepository>(); // Adding as singleton for in-memory storage. Can we replaced with a database implementation if needed
+            builder.Services.AddSingleton<IPurchaseOrderRepository, PurchaseOrderRepository>(); // Adding as singleton for in-memory storage. Can be replaced with a database implementation if needed
             builder.Services.AddSingleton<ICustomerService, CustomerService>();
-            builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>(); // Adding as singleton for in-memory storage. Can we replaced with a database implementation if needed
+            builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>(); // Adding as singleton for in-memory storage. Can be replaced with a database implementation if needed
         }
     }
 }

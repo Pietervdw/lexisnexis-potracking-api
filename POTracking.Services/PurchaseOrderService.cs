@@ -68,6 +68,21 @@ namespace POTracking.Services
             if (!_customerService.Exist(request.CustomerId))
                 errors.Add($"Customer with id {request.CustomerId} does not exist.");
 
+            foreach(var line in request.Lines)
+            {
+                if (string.IsNullOrWhiteSpace(line.Sku))
+                    errors.Add("SKU is required.");
+
+                if (string.IsNullOrWhiteSpace(line.ProductName))
+                    errors.Add("Product name is required.");
+
+                if (line.Quantity <= 0)
+                    errors.Add($"Quantity must be greater than 0. ({line.Sku})");
+
+                if (line.UnitPrice < 0)
+                    errors.Add($"Unit price cannot be less than 0. ({line.Sku})");
+            }
+
             return errors;
         }
     }

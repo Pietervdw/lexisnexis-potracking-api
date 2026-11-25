@@ -15,29 +15,6 @@ namespace POTracking.Api
 
             builder.Services.AddControllers();
 
-            // I like to shape my API response in a consistent way. Not necessary, but I think it makes the API more user-friendly
-            // This way the data attribute is still used and we add our own erroes list.
-            builder.Services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.InvalidModelStateResponseFactory = context =>
-                {
-                    var errors = context.ModelState.Values
-                        .SelectMany(v => v.Errors)
-                        .Select(e => string.IsNullOrEmpty(e.ErrorMessage)
-                            ? "Invalid request data."
-                            : e.ErrorMessage)
-                        .ToList();
-
-                    return new BadRequestObjectResult(new ValidationError
-                    {
-                        Title = "Validation failed",
-                        Status = StatusCodes.Status400BadRequest,
-                        Success = false,
-                        Errors = errors
-                    });
-                };
-            });
-
             ConfigureDi(builder);
 
             var app = builder.Build();

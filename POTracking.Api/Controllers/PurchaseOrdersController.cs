@@ -20,9 +20,9 @@ namespace POTracking.Api.Controllers
         {
             var response = _purchaseOrderService.Create(request);
             if (response.Success)
-                return Created($"purchaseorders/{response.PurchaseOrder?.Number}", response);
+                return Created($"/purchaseorders/{response.PurchaseOrder?.Number}", response);
 
-            return Ok(response);
+            return BadRequest(response);
         }
     }
 }

@@ -5,7 +5,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "customerId": -1,
+  "customerId": 1,
   "externalRef": "EXT123",
   "lines": [
     {

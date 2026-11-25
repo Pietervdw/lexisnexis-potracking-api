@@ -39,3 +39,12 @@ GET {{POTracking.Api_HostAddress}}/customers/
 Accept: application/json
 
 ###
+
+PATCH {{POTracking.Api_HostAddress}}/purchaseorders/PO0001/status
+Accept: application/json
+Content-Type: application/json
+
+{
+  "status": 1
+}
+###

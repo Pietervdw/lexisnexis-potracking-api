@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PoTracking.Abstractions;
+using POTracking.Domain;
 using POTracking.Domain.Dtos;
 
 namespace POTracking.Api.Controllers
@@ -21,6 +22,16 @@ namespace POTracking.Api.Controllers
             var response = _purchaseOrderService.Create(request);
             if (response.Success)
                 return Created($"/purchaseorders/{response.PurchaseOrder?.Number}", response);
+
+            return BadRequest(response);
+        }
+
+        [HttpPatch("{number}/status")]
+        public IActionResult ChangeStatus(string number, [FromBody] PurchaseOrderStatusUpdateRequest request)
+        {
+            var response = _purchaseOrderService.ChangeStatus(number, request.Status);
+            if (response.Success)
+                return Ok(response);
 
             return BadRequest(response);
         }

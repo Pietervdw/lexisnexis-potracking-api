@@ -1,6 +1,7 @@
 ﻿using PoTracking.Abstractions;
 using POTracking.Domain;
 using POTracking.Domain.Dtos;
+using PurchaseOrdersGetResponse = PoTracking.Abstractions.PurchaseOrdersGetResponse;
 
 namespace POTracking.Services
 {
@@ -60,8 +61,8 @@ namespace POTracking.Services
 
         public PurchaseOrderGetResponse GetByNumber(string number)
         {
-            var data = _purchaseOrderRepository.GetByNumber(number);
-            if (data == null)
+            var po = _purchaseOrderRepository.GetByNumber(number);
+            if (po == null)
             {
                 return new PurchaseOrderGetResponse
                 {
@@ -74,8 +75,34 @@ namespace POTracking.Services
             return new PurchaseOrderGetResponse
             {
                 Success = true,
-                PurchaseOrder = data
+                PurchaseOrder = po
             };
+        }
+
+
+        public PurchaseOrderStatusUpdateResponse ChangeStatus(string number, Enums.PurchaseOrderStatus status)
+        {
+            var po = _purchaseOrderRepository.GetByNumber(number);
+            if (po == null)
+            {
+                return new PurchaseOrderStatusUpdateResponse
+                {
+                    Success = false,
+                    Errors = [$"Purchase order with number '{number}' not found."]
+                };
+            }
+
+           if(!po.CanStatusMoveTo(status))
+           {
+                return new PurchaseOrderStatusUpdateResponse
+                {
+                    Success = false,
+                    Errors = [$"Cannot move purchase order '{number}' to status '{status}'."]
+                };
+           }
+
+           po.Status = status;
+           return new PurchaseOrderStatusUpdateResponse { Success = true };
         }
 
         public PurchaseOrdersGetResponse GetAll()

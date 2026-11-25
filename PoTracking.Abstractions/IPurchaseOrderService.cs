@@ -1,4 +1,5 @@
-﻿using POTracking.Domain.Dtos;
+﻿using POTracking.Domain;
+using POTracking.Domain.Dtos;
 
 namespace PoTracking.Abstractions
 {
@@ -7,5 +8,6 @@ namespace PoTracking.Abstractions
         PurchaseOrderCreateResponse Create(PurchaseOrderCreateRequest request);
         PurchaseOrderGetResponse GetByNumber(string number);
         PurchaseOrdersGetResponse GetAll();
+        PurchaseOrderStatusUpdateResponse ChangeStatus(string number, Enums.PurchaseOrderStatus status);
     }
 }

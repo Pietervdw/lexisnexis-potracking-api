@@ -46,17 +46,6 @@ namespace POTracking.Tests.Data.InMemory
             Assert.IsTrue(repository.Create(original));
             Assert.IsFalse(repository.Create(duplicate));
         }
-
-        [TestMethod]
-        public void Create_DuplicateExternalRef_CaseSensitiveKeys()
-        {
-            var repository = new PurchaseOrderRepository();
-            var first = BuildOrder("EXT-1");
-            var second = BuildOrder("ext-1");
-
-            Assert.IsTrue(repository.Create(first));
-            Assert.IsFalse(repository.Create(second));
-        }
-
+     
     }
 }

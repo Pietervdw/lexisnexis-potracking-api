@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
   "customerId": 1,
-  "externalRef": "EXT123",
+  "externalRef": "EXT125",
   "lines": [
     {
       "sku": "AL6303",
@@ -22,6 +22,16 @@ Content-Type: application/json
     }
   ]
 }
+
+###
+
+GET {{POTracking.Api_HostAddress}}/purchaseorders/PO0001
+Accept: application/json
+
+###
+
+GET {{POTracking.Api_HostAddress}}/purchaseorders/
+Accept: application/json
 
 ###
 

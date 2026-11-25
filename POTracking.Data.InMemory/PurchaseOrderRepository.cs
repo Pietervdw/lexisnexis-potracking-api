@@ -20,5 +20,15 @@ namespace POTracking.Data.InMemory
 
             return true;
         }
+
+        public PurchaseOrder? GetByNumber(string number)
+        {
+            return _purchaseOrders.Values.FirstOrDefault(po => po.Number == number);
+        }
+
+        public List<PurchaseOrder> GetAll()
+        {
+            return _purchaseOrders.Values.ToList();
+        }
     }
 }

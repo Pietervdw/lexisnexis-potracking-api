@@ -24,5 +24,25 @@ namespace POTracking.Api.Controllers
 
             return BadRequest(response);
         }
+
+        [HttpGet()]
+        public IActionResult GetAll()
+        {
+            var response = _purchaseOrderService.GetAll();
+            if (response.Success)
+                return Ok(response);
+
+            return NotFound(response);
+        }
+
+        [HttpGet("{number}")]
+        public IActionResult Get(string number)
+        {
+            var response = _purchaseOrderService.GetByNumber(number);
+            if (response.Success)
+                return Ok(response);
+
+            return NotFound(response);
+        }
     }
 }

@@ -58,6 +58,36 @@ namespace POTracking.Services
             };
         }
 
+        public PurchaseOrderGetResponse GetByNumber(string number)
+        {
+            var data = _purchaseOrderRepository.GetByNumber(number);
+            if (data == null)
+            {
+                return new PurchaseOrderGetResponse
+                {
+                    Success = false,
+                    Errors = new List<string> { $"Purchase order with number '{number}' not found." }
+                };
+            }
+          
+
+            return new PurchaseOrderGetResponse
+            {
+                Success = true,
+                PurchaseOrder = data
+            };
+        }
+
+        public PurchaseOrdersGetResponse GetAll()
+        {
+            var data = _purchaseOrderRepository.GetAll();
+            return new PurchaseOrdersGetResponse
+            {
+                Success = true,
+                PurchaseOrders = data
+            };
+        }
+
         private List<string> Validate(PurchaseOrderCreateRequest request)
         {
             var errors = new List<string>();

@@ -88,6 +88,7 @@ namespace POTracking.Tests.Services
             service.Create(request);
 
             Assert.IsNotNull(captured);
+            Assert.AreEqual(1, captured.CustomerId);
             Assert.AreEqual(PurchaseOrderStatus.Pending, captured.Status);
             Assert.AreEqual("EXT-001", captured.ExternalRef);
             var lines = captured.Lines.ToList();
@@ -139,6 +140,46 @@ namespace POTracking.Tests.Services
             Assert.HasCount(1, errors);
             Assert.AreEqual("Customer with id 999 does not exist.", errors[0]);
             repositoryMock.Verify(r => r.Create(It.IsAny<PurchaseOrder>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void GetAll_MapsOrdersToListDtoWithCustomerName()
+        {
+            var repositoryMock = new Mock<IPurchaseOrderRepository>();
+            repositoryMock.Setup(r => r.GetAll()).Returns(
+            [
+                new PurchaseOrder
+                {
+                    CustomerId = 1,
+                    Number = "PO0001",
+                    ExternalRef = "EXT-001",
+                    Lines = [new PurchaseOrderLine { Sku = "SKU-1", ProductName = "Widget", Quantity = 2, UnitPrice = 10.50 }]
+                },
+                new PurchaseOrder
+                {
+                    CustomerId = 99,
+                    Number = "PO0002",
+                    ExternalRef = "EXT-002",
+                    Lines = [new PurchaseOrderLine { Sku = "SKU-2", ProductName = "Gadget", Quantity = 1, UnitPrice = 5.0 }]
+                }
+            ]);
+            var customerServiceMock = new Mock<ICustomerService>();
+            customerServiceMock.Setup(s => s.GetAll()).Returns([new Customer { Id = 1, Name = "Acme", Email = "a@acme.com" }]);
+            var service = BuildService(repositoryMock, customerServiceMock);
+
+            var response = service.GetAll();
+
+            Assert.IsTrue(response.Success);
+            Assert.HasCount(2, response.PurchaseOrders);
+            var first = response.PurchaseOrders[0];
+            Assert.AreEqual("PO0001", first.Number);
+            Assert.AreEqual("EXT-001", first.ExternalRef);
+            Assert.AreEqual("Acme", first.CustomerName);
+            Assert.AreEqual(24.15, first.Total); // Subtotal 21 + 15% tax 3.15, DeliveryFee 0
+            var second = response.PurchaseOrders[1];
+            Assert.AreEqual("PO0002", second.Number);
+            Assert.AreEqual("EXT-002", second.ExternalRef);
+            Assert.AreEqual(string.Empty, second.CustomerName);
         }
     }
 }

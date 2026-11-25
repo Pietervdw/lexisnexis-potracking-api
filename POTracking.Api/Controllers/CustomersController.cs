@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using PoTracking.Abstractions;
-using POTracking.Domain;
 
 namespace POTracking.Api.Controllers
 {

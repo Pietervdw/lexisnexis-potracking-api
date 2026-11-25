@@ -5,6 +5,7 @@ namespace POTracking.Domain
 {
     public class PurchaseOrder
     {
+        public int CustomerId { get; set; }
         public string Number { get; set; }
         public string ExternalRef { get; set; }
         public double DeliveryFee { get; set; }

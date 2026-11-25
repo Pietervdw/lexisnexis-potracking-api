@@ -2,6 +2,6 @@
 {
     public class PurchaseOrdersGetResponse : ApiResponse
     {
-        public List<PurchaseOrder> PurchaseOrders { get; set; } = new();
+        public List<PurchaseOrderListDto> PurchaseOrders { get; set; } = new();
     }
 }

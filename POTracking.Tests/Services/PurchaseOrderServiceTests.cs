@@ -16,7 +16,7 @@ namespace POTracking.Tests.Services
             return new PurchaseOrderCreateRequest
             {
                 CustomerId = 1,
-                ExternalRef = "EXT01",
+                ExternalRef = "EXT-001",
                 Lines =
                 [
                     new PurchaseOrderCreateLineDto { Sku = "SKU-1", ProductName = "Widget", Quantity = 2, UnitPrice = 10.50 },

@@ -14,7 +14,10 @@ namespace POTracking.Data.InMemory
             if (!_purchaseOrders.TryAdd(purchaseOrder.ExternalRef, purchaseOrder)) // Will fail/return false if the external ref already exists in the list of purchase orders.
                 return false;
 
-            purchaseOrder.Number = $"PO{++_nextPurchaseOrderNumber:0000}";
+            purchaseOrder.Number = $"PO{Interlocked.Increment(ref _nextPurchaseOrderNumber):0000}"; // Make it thread safe, else we could get duplicated numbers.
+            // When switching to a Database, this could be the auto incremented row id/PK.
+
+
             return true;
         }
     }

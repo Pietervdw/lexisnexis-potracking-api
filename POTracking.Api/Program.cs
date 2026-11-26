@@ -15,6 +15,17 @@ namespace POTracking.Api
 
             builder.Services.AddControllers();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AngularApp", policy =>
+                {
+                    policy
+                        .WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             ConfigureDi(builder);
 
             var app = builder.Build();
@@ -25,6 +36,7 @@ namespace POTracking.Api
 
             app.UseAuthorization();
 
+            app.UseCors("AngularApp");
 
             app.MapControllers();
 

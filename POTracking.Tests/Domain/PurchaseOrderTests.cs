@@ -6,8 +6,6 @@ namespace POTracking.Tests.Domain
     [TestClass]
     public sealed class PurchaseOrderTests
     {
-        private const double Delta = 1e-9;
-
         [TestMethod]
         [DataRow(PurchaseOrderStatus.Pending, PurchaseOrderStatus.Confirmed, true)]
         [DataRow(PurchaseOrderStatus.Pending, PurchaseOrderStatus.Cancelled, true)]

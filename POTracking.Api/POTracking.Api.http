@@ -5,8 +5,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "customerId": 2,
-  "externalRef": "EXT126",
+  "customerId": 9,
+  "externalRef": "EXT125",
   "lines": [
     {
       "sku": "AL6303",
